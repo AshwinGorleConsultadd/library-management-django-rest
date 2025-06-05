@@ -46,10 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'books',
-    'borrows',
-
-'user',
-'rest_framework_simplejwt.token_blacklist',
+    'transactions',
+    'user',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
