@@ -3,7 +3,7 @@ These notes explain the entire Django + DRF flow with definitions and examples. 
 
 ---
 
-## 🔧 1. Project and App Setup
+## 1. Project and App Setup
 
 ### ➤ What is this?
 This step sets up your Django project and the app where your business logic (library system) lives.
