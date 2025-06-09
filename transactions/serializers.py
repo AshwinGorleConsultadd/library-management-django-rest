@@ -15,7 +15,7 @@ class BorrowSerializer(serializers.ModelSerializer):
 class ReturnSerializer(serializers.ModelSerializer):
     class Meta:
         model = Borrow
-        fields = ['id']
+        fields = ['id', 'book', 'borrow_date', 'due_date']
 
 
 class BorrowHistorySerializer(serializers.ModelSerializer):

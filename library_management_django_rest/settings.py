@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'transactions',
     'user',
     'rest_framework_simplejwt.token_blacklist',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -141,4 +142,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,  # 👈 disables /accounts/login/
 }

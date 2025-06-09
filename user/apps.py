@@ -12,6 +12,7 @@ class UserConfig(AppConfig):
             User = get_user_model()
             admin_username = config("ADMIN_USERNAME", default="admin")
             admin_password = config("ADMIN_PASSWORD", default="admin123")
+            admin_password = config("ADMIN_EMAIL", default="admin@example.com")
 
             if not User.objects.filter(username=admin_username).exists():
                 User.objects.create_superuser(

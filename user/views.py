@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, LoginSerializer, ChangePasswordSerializer
 from django.contrib.auth import get_user_model
+from drf_yasg.utils import swagger_auto_schema
 
 User = get_user_model()
 
@@ -15,7 +16,29 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
+# class RegisterView(APIView):
+#     def post(self, request):
+#         serializer = RegisterSerializer(data=request.data)
+#         if serializer.is_valid():
+#             user = serializer.save()
+#             return Response({"msg": "User registered successfully"}, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#
+# class LoginView(APIView):
+#     def post(self, request):
+#         serializer = LoginSerializer(data=request.data)
+#         if serializer.is_valid():
+#             user = authenticate(username=serializer.data['username'], password=serializer.data['password'])
+#             if user:
+#                 tokens = get_tokens_for_user(user)
+#                 return Response(tokens, status=status.HTTP_200_OK)
+#             return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+
 class RegisterView(APIView):
+    @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -25,6 +48,7 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
+    @swagger_auto_schema(request_body=LoginSerializer)
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -34,7 +58,6 @@ class LoginView(APIView):
                 return Response(tokens, status=status.HTTP_200_OK)
             return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class LogoutView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -49,9 +72,26 @@ class LogoutView(APIView):
             return Response({"error": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+# class ChangePasswordView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#
+#     def put(self, request):
+#         serializer = ChangePasswordSerializer(data=request.data)
+#         user = request.user
+#
+#         if serializer.is_valid():
+#             if not user.check_password(serializer.data['old_password']):
+#                 return Response({"old_password": "Wrong password."}, status=status.HTTP_400_BAD_REQUEST)
+#
+#             user.set_password(serializer.data['new_password'])
+#             user.save()
+#             return Response({"msg": "Password updated successfully"}, status=status.HTTP_200_OK)
+#
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class ChangePasswordView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    @swagger_auto_schema(request_body=ChangePasswordSerializer)
     def put(self, request):
         serializer = ChangePasswordSerializer(data=request.data)
         user = request.user
